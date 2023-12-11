@@ -1,3 +1,5 @@
+// Partner: Emilie Barniak
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -6,6 +8,8 @@
 #include "config.h"
 #include "planets.h"
 #include "compute.h"
+#include "cuda_runtime.h"
+
 
 // represents the objects in the system.  Global variables
 vector3 *hVel, *d_hVel;
@@ -100,15 +104,15 @@ int main(int argc, char **argv)
 	randomFill(NUMPLANETS + 1, NUMASTEROIDS);
 	//now we have a system.
 	#ifdef DEBUG
-	printSystem(stdout);
+		printSystem(stdout);
 	#endif
 	for (t_now=0;t_now<DURATION;t_now+=INTERVAL){
 		compute();
 	}
 	clock_t t1=clock()-t0;
-#ifdef DEBUG
-	printSystem(stdout);
-#endif
+	#ifdef DEBUG
+		printSystem(stdout);
+	#endif
 	printf("This took a total time of %f seconds\n",(double)t1/CLOCKS_PER_SEC);
 
 	freeHostMemory();
